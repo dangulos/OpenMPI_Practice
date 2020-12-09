@@ -1,5 +1,7 @@
 //mpicc mpi-omp_pi.c -o mpi-omp_pi -lm -fopenmp
 // mpirun -np 4 --hostfile mpi-hosts ./mpi-omp_pi
+
+#include <opencv2/highgui.hpp>
 #include <stdio.h>
 #include <string.h>
 #include <mpi.h>
@@ -14,7 +16,7 @@ int calculatePi(double *pi, int ID, int numprocs)
     start = (ITERATIONS/numprocs) * ID;
     end = (ITERATIONS/numprocs) + 1;
     int i = start;
-
+    std::cout << "OpenCV Version: "<< CV_VERSION << std::endl;
     do{
         *pi = *pi + (double)(4.0 / ((i*2)+1));
         i++;
@@ -38,7 +40,7 @@ int main(int argc, char *argv[])
     if (processId == 0) printf("\nLaunching with %i processes", numprocs);
     global_pi = 0.0;
 
-    #pragma omp parallel num_threads(4)
+    #pragma omp parallel num_threads(1)
     {
         int threadId = omp_get_thread_num();
         int threadsTotal = omp_get_num_threads();
@@ -49,7 +51,7 @@ int main(int argc, char *argv[])
         for(i = 0; i < threadsTotal; i++)
             global_pi = global_pi + local_pi[i];
         }
-        printf("%i ", globalId); fflush(stdout);
+        //printf("%i ", globalId); fflush(stdout);
     }
     MPI_Reduce(local_pi, &global_pi, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 	if (processId == 0) printf("\npi is approximately %.16f, Error is %.16f\n", global_pi, fabs(global_pi - PI25DT));
