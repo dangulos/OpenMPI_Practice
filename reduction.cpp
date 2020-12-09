@@ -12,6 +12,8 @@
  * @author Juan Guillermo Sierra & Daniel Angulo Suescun  
  * */
 
+#include <mpi.h>
+
 #include <opencv2/highgui.hpp>
 #include <bits/stdc++.h>
 #include <stdio.h>
