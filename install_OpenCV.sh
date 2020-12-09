@@ -13,6 +13,13 @@ sudo apt-get install -y libxvidcore-dev libx264-dev
 sudo apt-get install -y libgtk-3-dev
 #For optimization:
 sudo apt-get install -y libatlas-base-dev gfortran pylint
-wget https://github.com/opencv/opencv/archive/3.4.0.zip -O opencv-3.4.0.zip
+sudo apt install wget
+sudo wget https://github.com/opencv/opencv/archive/3.4.0.zip -O opencv-3.4.0.zip
 sudo apt-get install unzip
-unzip opencv-3.4.0.zip
+sudo unzip opencv-3.4.0.zip
+cd opencv-3.4.0
+sudo mkdir build
+cd build
+sudo cmake -D WITH_TBB=ON -D WITH_OPENMP=ON -D WITH_IPP=ON -D CMAKE_BUILD_TYPE=RELEASE -D BUILD_EXAMPLES=OFF -D WITH_NVCUVID=ON -D WITH_CUDA=OFF -D BUILD_DOCS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D WITH_CSTRIPES=ON -D WITH_OPENCL=ON CMAKE_INSTALL_PREFIX=/usr/local/ ..
+sudo make -j`nproc`
+sudo make install
