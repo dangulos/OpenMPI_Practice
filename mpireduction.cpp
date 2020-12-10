@@ -232,7 +232,7 @@ cv::Mat flat;
     data[index + 1] = flat.data[indexAux + 1];
     data[index + 2] = flat.data[indexAux + 2];
   }
-  MPI_Gather(&data, 2, MPI_UNSIGNED_CHAR, newImage, 408960, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
+  MPI_Gather(&data, 2, MPI_UNSIGNED_CHAR, newImage, 3, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
   MPI_Finalize(); // finish MPI environment
   // tiempo del final de ejecución
   gettimeofday(&tval_after, NULL);
