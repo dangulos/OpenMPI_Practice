@@ -26,16 +26,7 @@
 using namespace cv;
 using namespace std;
 
-/**
- * @var flatResample variable que contendra los valores de la nueva imagen reducida 
- *  
- * */
-cv::Mat flatResample;
 
-/**
- * @var flat variable que contendra los valores de la imagen a reducir
- * */
-cv::Mat flat;
 
 /**
  * @var coeficientWIDTH coeficiente de la operación widthOriginal/widthReducido
@@ -118,6 +109,17 @@ void resample(int ID)
 
 int main(int argc, char *argv[])
 {
+
+  /**
+ * @var flatResample variable que contendra los valores de la nueva imagen reducida 
+ *  
+ * */
+cv::Mat flatResample;
+
+/**
+ * @var flat variable que contendra los valores de la imagen a reducir
+ * */
+cv::Mat flat;
   // define la cantidad de threads a utilizar dada la entrada del usuario
   THREADS = atoi(argv[3]);
   // define el "canvas" de la imagen reducida
@@ -202,6 +204,32 @@ int main(int argc, char *argv[])
 
   printf("Hello world from processor %s, rank %d out of %d processors\n",
                 processor_name, world_rank, world_size);
+
+  int initIteration, endIteration, threadId = world_rank;
+  initIteration = (LENGTH / THREADS) * threadId;
+
+  if (threadId == THREADS - 1)
+    endIteration = LENGTH;
+  else
+    endIteration = initIteration + ((LENGTH / THREADS) - 1);
+
+  int index = 0;
+
+  for (int aux = initIteration; aux < endIteration; aux++)
+  {
+    
+    int j = aux % 852;
+    int i = (aux - j) / 852;
+    index = (j + i * 852) * 3;
+    int x = j * coeficientWIDTH;
+    int y = i * coeficientHEIGHT;
+
+    int indexAux = (x + y * WIDTH) * 3;
+    
+    flatResample.data[index] = flat.data[indexAux];
+    flatResample.data[index + 1] = flat.data[indexAux + 1];
+    flatResample.data[index + 2] = flat.data[indexAux + 2];
+  }
 
   MPI_Finalize(); // finish MPI environment
   // tiempo del final de ejecución
