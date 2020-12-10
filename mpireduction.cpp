@@ -78,34 +78,34 @@ int THREADS;
  * flat es el arreglo de la imagen original
  * @param arg apuntador del hilo (thread) a utlizar.
  * */
-void resample(int ID)
-{
-  int initIteration, endIteration, threadId = ID;
-  initIteration = (LENGTH / THREADS) * threadId;
+// void resample(int ID)
+// {
+//   int initIteration, endIteration, threadId = ID;
+//   initIteration = (LENGTH / THREADS) * threadId;
 
-  if (threadId == THREADS - 1)
-    endIteration = LENGTH;
-  else
-    endIteration = initIteration + ((LENGTH / THREADS) - 1);
+//   if (threadId == THREADS - 1)
+//     endIteration = LENGTH;
+//   else
+//     endIteration = initIteration + ((LENGTH / THREADS) - 1);
 
-  int index = 0;
+//   int index = 0;
 
-  for (int aux = initIteration; aux < endIteration; aux++)
-  {
+//   for (int aux = initIteration; aux < endIteration; aux++)
+//   {
     
-    int j = aux % 852;
-    int i = (aux - j) / 852;
-    index = (j + i * 852) * 3;
-    int x = j * coeficientWIDTH;
-    int y = i * coeficientHEIGHT;
+//     int j = aux % 852;
+//     int i = (aux - j) / 852;
+//     index = (j + i * 852) * 3;
+//     int x = j * coeficientWIDTH;
+//     int y = i * coeficientHEIGHT;
 
-    int indexAux = (x + y * WIDTH) * 3;
+//     int indexAux = (x + y * WIDTH) * 3;
     
-    flatResample.data[index] = flat.data[indexAux];
-    flatResample.data[index + 1] = flat.data[indexAux + 1];
-    flatResample.data[index + 2] = flat.data[indexAux + 2];
-  }
-}
+//     flatResample.data[index] = flat.data[indexAux];
+//     flatResample.data[index + 1] = flat.data[indexAux + 1];
+//     flatResample.data[index + 2] = flat.data[indexAux + 2];
+//   }
+// }
 
 int main(int argc, char *argv[])
 {
