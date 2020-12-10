@@ -174,6 +174,8 @@ cv::Mat flat;
   cout << sizeof(flatResample.data) << " " << typeid(flatResample.data).name() << endl;
   
   cout << sizeof(newImage) << " " << typeid(newImage).name() << endl;
+
+  cout << sizeof(ptrNewImage) << " " << typeid(ptrNewImage).name() << endl;
   // (el puntero ahora apunta al inicio del vector)
   std::vector<uchar> vecResample(flatResample.data, flatResample.data + flatResample.total());
 
