@@ -211,29 +211,30 @@ cv::Mat flat;
 
   int index = 0;
 
+  unsigned char data[endIteration-initIteration];
+
   for (int aux = initIteration; aux < endIteration; aux++)
   {
     
     int j = aux % 852;
     int i = (aux - j) / 852;
-    index = (j + i * 852) * 3;
+    // index = (j + i * 852) * 3;
+    index+=3;
     int x = j * coeficientWIDTH;
     int y = i * coeficientHEIGHT;
 
     int indexAux = (x + y * WIDTH) * 3;
     
-    flatResample.data[index] = flat.data[indexAux];
-    flatResample.data[index + 1] = flat.data[indexAux + 1];
-    flatResample.data[index + 2] = flat.data[indexAux + 2];
+    data[index] = flat.data[indexAux];
+    data[index + 1] = flat.data[indexAux + 1];
+    data[index + 2] = flat.data[indexAux + 2];
   }
-
+  MPI_Gather(&data, endIteration-initIteration, MPI_UNSIGNED_CHAR, flatResample.data, 408960, MPI_INT, 0, MPI_COMM_WORLD);
   MPI_Finalize(); // finish MPI environment
   // tiempo del final de ejecución
   gettimeofday(&tval_after, NULL);
   // se genera la imagen reducida, a partir del puntero del vector con los datos (ptrResample)
   resampleImage = cv::Mat(480, 852, resampleImage.type(), ptrResample);
-  cout << "Type: ";
-  cout << resampleImage.type() << endl;
 
   // se muestra en pantalla el resultado final
   // cv::namedWindow(argv[2], cv::WINDOW_AUTOSIZE);
