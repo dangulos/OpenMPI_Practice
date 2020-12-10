@@ -204,14 +204,14 @@ cv::Mat flat;
 
   printf("Hello world from processor %s, rank %d out of %d processors\n",
                 processor_name, world_rank, world_size);
-
+  int l = 408960;
   int initIteration, endIteration, threadId = world_rank;
-  initIteration = (LENGTH / THREADS) * threadId;
+  initIteration = (l / THREADS) * threadId;
 
-  if (threadId == THREADS - 1)
-    endIteration = LENGTH;
+  if (threadId == world_size - 1)
+    endIteration = l;
   else
-    endIteration = initIteration + ((LENGTH / THREADS) - 1);
+    endIteration = initIteration + ((l / world_size) - 1);
 
   int index = 0;
 
