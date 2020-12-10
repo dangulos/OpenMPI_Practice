@@ -187,10 +187,6 @@ cv::Mat flat;
   //      resample(ID);
   //  }
 
-  cout << "Data types" << endl;
-  cout << typeid(flat.data).name() << endl;
-  cout << typeid(flatResample.data).name() << endl;
-
   MPI_Init(NULL, NULL);      // initialize MPI environment
   int world_size; // number of processes
   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
@@ -236,6 +232,8 @@ cv::Mat flat;
   gettimeofday(&tval_after, NULL);
   // se genera la imagen reducida, a partir del puntero del vector con los datos (ptrResample)
   resampleImage = cv::Mat(480, 852, resampleImage.type(), ptrResample);
+  cout << "Type: ";
+  cout << resampleImage.type() << endl;
 
   // se muestra en pantalla el resultado final
   // cv::namedWindow(argv[2], cv::WINDOW_AUTOSIZE);
