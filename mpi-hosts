@@ -5,3 +5,4 @@ localhost slots=2
 
 # The following slave nodes are single processor machines:
 cluster-node1
+cluster-node2
