@@ -206,7 +206,7 @@ cv::Mat flat;
                 processor_name, world_rank, world_size);
   int l = 408960;
   int initIteration, endIteration, threadId = world_rank;
-  initIteration = (l / THREADS) * threadId;
+  initIteration = (l / world_size) * threadId;
 
   if (threadId == world_size - 1)
     endIteration = l;
@@ -244,7 +244,6 @@ cv::Mat flat;
   // calculo del tiempo tomado
   timersub(&tval_after, &tval_before, &tval_result);
   printf("Time elapsed: %ld.%06ld\n", (long int)tval_result.tv_sec, (long int)tval_result.tv_usec);
-  resample(world_rank);
   // guardado de la imagen resultado
   imwrite(argv[2], resampleImage); 
   cv::waitKey(0);
