@@ -170,8 +170,8 @@ cv::Mat flat;
 
   cv::Mat newImage;
   cv::Mat bigResampleImage(480, 852, CV_8UC3, Scalar(0, 0, 0));
-  uint totalElementsResampleImage = bigResampleImage.total() * bigResampleImage.channels();
-  newImage = bigResampleImage.reshape(1, totalElementsResampleImage);
+  uint bigtotalElementsResampleImage = bigResampleImage.total() * bigResampleImage.channels();
+  newImage = bigResampleImage.reshape(1, bigtotalElementsResampleImage);
   auto *ptrNewImage = newImage;
 
   //cout << sizeof(flatResample.data) << " " << typeid(flatResample.data).name() << endl;
