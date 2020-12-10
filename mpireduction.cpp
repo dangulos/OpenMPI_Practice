@@ -234,16 +234,16 @@ cv::Mat flat;
 
     int indexAux = (x + y * WIDTH) * 3;
     
-    data[index] = flat.data[indexAux];
-    data[index + 1] = flat.data[indexAux + 1];
-    data[index + 2] = flat.data[indexAux + 2];
+    flatResample.data[index] = flat.data[indexAux];
+    flatResample.data[index + 1] = flat.data[indexAux + 1];
+    flatResample.data[index + 2] = flat.data[indexAux + 2];
   }
-  MPI_Gather(&data, datasize, MPI_UNSIGNED_CHAR, ptrNewImage, 408960, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
+  //MPI_Gather(data, datasize, MPI_UNSIGNED_CHAR, ptrNewImage, 408960, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
   MPI_Finalize(); // finish MPI environment
   // tiempo del final de ejecución
   gettimeofday(&tval_after, NULL);
   // se genera la imagen reducida, a partir del puntero del vector con los datos (ptrResample)
-  //resampleImage = cv::Mat(480, 852, resampleImage.type(), ptrNewImage);
+  resampleImage = cv::Mat(480, 852, resampleImage.type(), ptrResample);
 
   // se muestra en pantalla el resultado final
   // cv::namedWindow(argv[2], cv::WINDOW_AUTOSIZE);
@@ -253,7 +253,7 @@ cv::Mat flat;
   timersub(&tval_after, &tval_before, &tval_result);
   printf("Time elapsed: %ld.%06ld\n", (long int)tval_result.tv_sec, (long int)tval_result.tv_usec);
   // guardado de la imagen resultado
-  //imwrite(argv[2], resampleImage); 
-  //cv::waitKey(0);
+  imwrite(argv[2], resampleImage); 
+  cv::waitKey(0);
   return 0;
 }
