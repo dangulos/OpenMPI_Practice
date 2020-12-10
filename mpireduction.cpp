@@ -177,17 +177,29 @@ int main(int argc, char *argv[])
 
   // se genera el flujo de trabajo a los hilos con funcion pragma de OPENMP
   int processId, numprocs;
-  MPI_Init(&argc, &argv);
-  MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
-  MPI_Comm_rank(MPI_COMM_WORLD, &processId);
+  
 
-  #pragma omp parallel num_threads(1)
-    {
-        int ID = omp_get_thread_num();// id del thread a utilizar
-        resample(ID);
-    }
+  //#pragma omp parallel num_threads(1)
+  //  {
+  //      int ID = omp_get_thread_num();// id del thread a utilizar
+  //      resample(ID);
+  //  }
 
-  MPI_Finalize();
+  MPI_Init(NULL, NULL);      // initialize MPI environment
+  int world_size; // number of processes
+  MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+
+  int world_rank; // the rank of the process
+  MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
+  char processor_name[MPI_MAX_PROCESSOR_NAME]; // gets the name of the processor
+  int name_len;
+  MPI_Get_processor_name(processor_name, &name_len);
+
+  printf("Hello world from processor %s, rank %d out of %d processors\n",
+                processor_name, world_rank, world_size);
+
+  MPI_Finalize(); // finish MPI environment
   // tiempo del final de ejecución
   gettimeofday(&tval_after, NULL);
   // se genera la imagen reducida, a partir del puntero del vector con los datos (ptrResample)
@@ -200,7 +212,7 @@ int main(int argc, char *argv[])
   // calculo del tiempo tomado
   timersub(&tval_after, &tval_before, &tval_result);
   printf("Time elapsed: %ld.%06ld\n", (long int)tval_result.tv_sec, (long int)tval_result.tv_usec);
-
+  resample(world_rank);
   // guardado de la imagen resultado
   imwrite(argv[2], resampleImage); 
   cv::waitKey(0);
