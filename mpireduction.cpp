@@ -170,6 +170,10 @@ cv::Mat flat;
 
   unsigned char newImage[408960];
   auto *ptrNewImage = newImage;
+
+  cout << sizeof(flatResample.data) << " " << typeid(flatResample.data).name() << endl;
+  
+  cout << sizeof(newImage) << " " << typeid(newImage).name() << endl;
   // (el puntero ahora apunta al inicio del vector)
   std::vector<uchar> vecResample(flatResample.data, flatResample.data + flatResample.total());
 
@@ -236,7 +240,7 @@ cv::Mat flat;
   // tiempo del final de ejecución
   gettimeofday(&tval_after, NULL);
   // se genera la imagen reducida, a partir del puntero del vector con los datos (ptrResample)
-  resampleImage = cv::Mat(480, 852, resampleImage.type(), ptrNewImage);
+  //resampleImage = cv::Mat(480, 852, resampleImage.type(), ptrNewImage);
 
   // se muestra en pantalla el resultado final
   // cv::namedWindow(argv[2], cv::WINDOW_AUTOSIZE);
@@ -246,7 +250,7 @@ cv::Mat flat;
   timersub(&tval_after, &tval_before, &tval_result);
   printf("Time elapsed: %ld.%06ld\n", (long int)tval_result.tv_sec, (long int)tval_result.tv_usec);
   // guardado de la imagen resultado
-  imwrite(argv[2], resampleImage); 
-  cv::waitKey(0);
+  //imwrite(argv[2], resampleImage); 
+  //cv::waitKey(0);
   return 0;
 }
