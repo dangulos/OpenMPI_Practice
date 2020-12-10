@@ -168,7 +168,10 @@ cv::Mat flat;
   // flat.data es el puntero del arreglo, guardado ahora en ptr
   auto *ptrResample = flatResample.data;
 
-  unsigned char newImage[408960];
+  cv::Mat newImage;
+  cv::Mat bigResampleImage(480, 852, CV_8UC3, Scalar(0, 0, 0));
+  uint totalElementsResampleImage = bigResampleImage.total() * bigResampleImage.channels();
+  flatResample = bigResampleImage.reshape(1, totalElementsResampleImage);
   auto *ptrNewImage = newImage;
 
   //cout << sizeof(flatResample.data) << " " << typeid(flatResample.data).name() << endl;
@@ -238,12 +241,12 @@ cv::Mat flat;
     flatResample.data[index + 1] = flat.data[indexAux + 1];
     flatResample.data[index + 2] = flat.data[indexAux + 2];
   }
-  //MPI_Gather(data, datasize, MPI_UNSIGNED_CHAR, ptrNewImage, 408960, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
+  MPI_Gather(ptrResample, datasize, MPI_UNSIGNED_CHAR, ptrNewImage, 408960, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
   MPI_Finalize(); // finish MPI environment
   // tiempo del final de ejecución
   gettimeofday(&tval_after, NULL);
   // se genera la imagen reducida, a partir del puntero del vector con los datos (ptrResample)
-  resampleImage = cv::Mat(480, 852, resampleImage.type(), ptrResample);
+  resampleImage = cv::Mat(480, 852, resampleImage.type(), ptrNewImage);
 
   // se muestra en pantalla el resultado final
   // cv::namedWindow(argv[2], cv::WINDOW_AUTOSIZE);
