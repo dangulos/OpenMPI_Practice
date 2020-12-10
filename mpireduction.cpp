@@ -181,8 +181,8 @@ cv::Mat flat;
   gettimeofday(&tval_before, NULL);
 
   // se genera el flujo de trabajo a los hilos con funcion pragma de OPENMP
-  int processId, numprocs;
-  
+  int processId;
+  MPI_Comm_rank(MPI_COMM_WORLD, &processId);
 
   //#pragma omp parallel num_threads(1)
   //  {
@@ -245,7 +245,7 @@ cv::Mat flat;
 
   // calculo del tiempo tomado
   timersub(&tval_after, &tval_before, &tval_result);
-  printf("Time elapsed: %ld.%06ld\n", (long int)tval_result.tv_sec, (long int)tval_result.tv_usec);
+  if (processId == 0) printf("Time elapsed: %ld.%06ld\n", (long int)tval_result.tv_sec, (long int)tval_result.tv_usec);
   // guardado de la imagen resultado
   imwrite(argv[2], resampleImage); 
   cv::waitKey(0);
