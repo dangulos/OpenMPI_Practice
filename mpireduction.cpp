@@ -212,8 +212,8 @@ cv::Mat flat;
     endIteration = initIteration + ((l / world_size) - 1);
 
   int index = 0;
-
-  unsigned char data[endIteration-initIteration];
+  int datasize = endIteration-initIteration;
+  unsigned char data[datasize];
 
   for (int aux = initIteration; aux < endIteration; aux++)
   {
@@ -231,7 +231,7 @@ cv::Mat flat;
     data[index + 1] = flat.data[indexAux + 1];
     data[index + 2] = flat.data[indexAux + 2];
   }
-  MPI_Gather(&data, 2, MPI_UNSIGNED_CHAR, newImage, 3, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
+  MPI_Gather(&data, datasize, MPI_UNSIGNED_CHAR, newImage, 408960, MPI_UNSIGNED_CHAR, 0, MPI_COMM_WORLD);
   MPI_Finalize(); // finish MPI environment
   // tiempo del final de ejecución
   gettimeofday(&tval_after, NULL);
