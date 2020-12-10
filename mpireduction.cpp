@@ -185,6 +185,10 @@ int main(int argc, char *argv[])
   //      resample(ID);
   //  }
 
+  cout << "Data types" << endl;
+  cout << typeid(flat.data).name() << endl;
+  cout << typeid(flatResample.data).name() << endl;
+
   MPI_Init(NULL, NULL);      // initialize MPI environment
   int world_size; // number of processes
   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
