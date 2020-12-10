@@ -129,7 +129,7 @@ cv::Mat flat;
   struct timeval tval_before, tval_after, tval_result;
 
   // arreglo de Id de los threads
-  int threadId[THREADS], i, *retval;
+  //int threadId[THREADS], i, *retval;
 
   // crea los hilos
   pthread_t thread[THREADS];
