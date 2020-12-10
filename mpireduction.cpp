@@ -171,11 +171,11 @@ cv::Mat flat;
   unsigned char newImage[408960];
   auto *ptrNewImage = newImage;
 
-  cout << sizeof(flatResample.data) << " " << typeid(flatResample.data).name() << endl;
+  //cout << sizeof(flatResample.data) << " " << typeid(flatResample.data).name() << endl;
   
-  cout << sizeof(newImage) << " " << typeid(newImage).name() << endl;
+  //cout << sizeof(newImage) << " " << typeid(newImage).name() << endl;
 
-  cout << sizeof(ptrNewImage) << " " << typeid(ptrNewImage).name() << endl;
+  //cout << sizeof(ptrNewImage) << " " << typeid(ptrNewImage).name() << endl;
   // (el puntero ahora apunta al inicio del vector)
   std::vector<uchar> vecResample(flatResample.data, flatResample.data + flatResample.total());
 
@@ -206,8 +206,8 @@ cv::Mat flat;
   int name_len;
   MPI_Get_processor_name(processor_name, &name_len);
 
-  printf("Hello world from processor %s, rank %d out of %d processors\n",
-                processor_name, world_rank, world_size);
+  //printf("Hello world from processor %s, rank %d out of %d processors\n",
+  //              processor_name, world_rank, world_size);
   int l = 408960;
   int initIteration, endIteration, threadId = world_rank;
   initIteration = (l / world_size) * threadId;
@@ -221,7 +221,7 @@ cv::Mat flat;
   int datasize = endIteration-initIteration;
   unsigned char dat[datasize];
   auto *data = dat;
-
+	cout << endIteration - initIteration << endl;
   for (int aux = initIteration; aux < endIteration; aux++)
   {
     
